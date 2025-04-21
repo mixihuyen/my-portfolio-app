@@ -1,0 +1,162 @@
+"use client";
+
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, Github } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import CircularGallery from "@/public/CircularGallery";
+import projects from "@/components/data/projectsData";
+
+export default function Projects() {
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  const filteredProjects =
+    activeFilter === "all"
+      ? projects
+      : projects.filter((project) => project.category === activeFilter);
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: (index: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+        delay: index * 0.05,
+      },
+    }),
+  };
+
+  return (
+    <section id="projects" className="py-8 bg-white/50">
+      <div className="container mx-auto px-4 sm:px-6 md:px-30">
+        <div className="text-center mb-8">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
+            Projects
+          </h2>
+          <div className="w-12 h-1 bg-green-500 mx-auto"></div>
+          <p className="mt-3 text-sm sm:text-base text-green-700 max-w-md mx-auto">
+            Notable projects showcasing my mobile app development skills.
+          </p>
+        </div>
+
+        <div className="flex justify-center mb-6">
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Button
+              variant={activeFilter === "all" ? "default" : "outline"}
+              className={`px-2 py-1 text-xs sm:text-sm ${
+                activeFilter === "all"
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "border-green-600 text-green-600 hover:bg-green-100"
+              }`}
+              onClick={() => setActiveFilter("all")}
+            >
+              All
+            </Button>
+            <Button
+              variant={activeFilter === "flutter" ? "default" : "outline"}
+              className={`px-2 py-1 text-xs sm:text-sm ${
+                activeFilter === "flutter"
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "border-green-600 text-green-600 hover:bg-green-100"
+              }`}
+              onClick={() => setActiveFilter("flutter")}
+            >
+              Flutter
+            </Button>
+            <Button
+              variant={activeFilter === "react-native" ? "default" : "outline"}
+              className={`px-2 py-1 text-xs sm:text-sm ${
+                activeFilter === "react-native"
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "border-green-600 text-green-600 hover:bg-green-100"
+              }`}
+              onClick={() => setActiveFilter("react-native")}
+            >
+              React Native
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              custom={index}
+            >
+              <Card className="overflow-hidden  border-green-200 shadow-sm hover:shadow-lg transition-shadow">
+                <div className="relative aspect-[3/2] overflow-hidden h-120 ">
+                  <div className="h-110 w-full relative m-8">
+                    <CircularGallery
+                      items={project.images.map((image) => ({
+                        image,
+                        text: project.title,
+                      }))}
+                      bend={0}
+                      textColor="#ffffff"
+                      borderRadius={0.09}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 "
+                    />
+                  </div>
+                </div>
+                <CardContent className="p-3 sm:p-4">
+                  <h3 className="text-base sm:text-lg font-bold text-green-800 mb-1">
+                    {project.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-green-700 mb-2 line-clamp-2">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {project.technologies.map((tech) => (
+                      <Badge
+                        key={tech}
+                        variant="outline"
+                        className="bg-green-50 text-green-700 border-green-200 text-xs px-1.5 py-0.5"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="flex space-x-3">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-700 hover:text-green-500 transition-colors"
+                      aria-label={`View ${project.title} on GitHub`}
+                    >
+                      <Github className="h-4 w-4 sm:h-5 sm:w-5" />
+                    </a>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-700 hover:text-green-500 transition-colors"
+                      aria-label={`Visit ${project.title} live demo`}
+                    >
+                      <ExternalLink className="h-4 w-4 sm:h-5 sm:w-5" />
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="text-center mt-6">
+          <Button className="bg-green-600 hover:bg-green-700 px-3 py-1 text-xs sm:text-sm">
+            View More
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
