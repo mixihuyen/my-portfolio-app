@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import CircularGallery from "@/public/CircularGallery";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import projects from "@/components/data/projectsData";
 
 export default function Projects() {
@@ -39,7 +42,7 @@ export default function Projects() {
           </h2>
           <div className="w-12 h-1 bg-green-500 mx-auto"></div>
           <p className="mt-3 text-sm sm:text-base text-green-700 max-w-md mx-auto">
-            Notable projects showcasing my mobile app development skills.
+            Notable projects showcasing my mobile and web development skills.
           </p>
         </div>
 
@@ -57,26 +60,26 @@ export default function Projects() {
               All
             </Button>
             <Button
-              variant={activeFilter === "flutter" ? "default" : "outline"}
+              variant={activeFilter === "mobile" ? "default" : "outline"}
               className={`px-2 py-1 text-xs sm:text-sm ${
-                activeFilter === "flutter"
+                activeFilter === "mobile"
                   ? "bg-green-600 hover:bg-green-700"
                   : "border-green-600 text-green-600 hover:bg-green-100"
               }`}
-              onClick={() => setActiveFilter("flutter")}
+              onClick={() => setActiveFilter("mobile")}
             >
-              Flutter
+              Mobile
             </Button>
             <Button
-              variant={activeFilter === "react-native" ? "default" : "outline"}
+              variant={activeFilter === "web" ? "default" : "outline"}
               className={`px-2 py-1 text-xs sm:text-sm ${
-                activeFilter === "react-native"
+                activeFilter === "web"
                   ? "bg-green-600 hover:bg-green-700"
                   : "border-green-600 text-green-600 hover:bg-green-100"
               }`}
-              onClick={() => setActiveFilter("react-native")}
+              onClick={() => setActiveFilter("web")}
             >
-              React Native
+              Web
             </Button>
           </div>
         </div>
@@ -90,19 +93,34 @@ export default function Projects() {
               animate="visible"
               custom={index}
             >
-              <Card className="overflow-hidden  border-green-200 shadow-sm hover:shadow-lg transition-shadow">
-                <div className="relative aspect-[3/2] overflow-hidden h-120 ">
-                  <div className="h-110 w-full relative m-8">
-                    <CircularGallery
-                      items={project.images.map((image) => ({
-                        image,
-                        text: project.title,
-                      }))}
-                      bend={0}
-                      textColor="#ffffff"
-                      borderRadius={0.09}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 "
-                    />
+              <Card className="overflow-hidden border-green-200 shadow-sm hover:shadow-lg transition-shadow">
+                <div className="relative overflow-hidden w-full">
+                  <div className="relative">
+                    <Swiper
+                      modules={[Pagination, Autoplay]}
+                      spaceBetween={10}
+                      autoplay={{ delay: 3000, disableOnInteraction: false }}
+                      className="w-full "
+                      style={{ maxHeight: "350px" }} // Giới hạn chiều cao
+                    >
+                      {project.images.map((image, imgIndex) => (
+                        <SwiperSlide key={imgIndex}>
+                          <div
+                            className={`w-full  ${
+                              project.category === "mobile"
+                                ? "max-w-[106px] mx-auto aspect-[9/16] m-2"
+                                : "max-w-[360px] mx-auto aspect-[16/9]"
+                            }`} // Kích thước và tỷ lệ theo type
+                          >
+                            <img
+                              src={image}
+                              alt={`${project.title} - Slide ${imgIndex}`}
+                              className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
+                            />
+                          </div>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
                   </div>
                 </div>
                 <CardContent className="p-3 sm:p-4">

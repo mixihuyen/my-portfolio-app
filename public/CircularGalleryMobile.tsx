@@ -21,7 +21,7 @@ function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
 }
 
 function lerp(p1: number, p2: number, t: number): number {
-  return p1 + (p2 - p1) * t;
+  return p1 + (p2 - p1) * Math.min(Math.max(t, 0), 1);
 }
 
 function autoBind(instance: any): void {
@@ -286,7 +286,7 @@ class Media {
           );
           vec4 color = texture2D(tMap, uv);
           
-          // Apply rounded corners (assumes vUv in [0,1])
+          // Apply rounded corners
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
           if(d > 0.0) {
             discard;
@@ -340,20 +340,19 @@ class Media {
     scroll: { current: number; last: number },
     direction: "right" | "left"
   ) {
-    this.plane.position.x = this.x - scroll.current - this.extra;
+    const planeOffset = this.plane.scale.x / 2;
+    const viewportOffset = this.viewport.width / 2;
 
+    this.plane.position.x = this.x - scroll.current - this.extra;
     const x = this.plane.position.x;
     const H = this.viewport.width / 2;
 
-    if (this.bend === 0) {
-      this.plane.position.y = 0;
-      this.plane.rotation.z = 0;
-    } else {
+    if (this.bend !== 0) {
       const B_abs = Math.abs(this.bend);
       const R = (H * H + B_abs * B_abs) / (2 * B_abs);
       const effectiveX = Math.min(Math.abs(x), H);
-
       const arc = R - Math.sqrt(R * R - effectiveX * effectiveX);
+
       if (this.bend > 0) {
         this.plane.position.y = -arc;
         this.plane.rotation.z = -Math.sign(x) * Math.asin(effectiveX / R);
@@ -361,21 +360,22 @@ class Media {
         this.plane.position.y = arc;
         this.plane.rotation.z = Math.sign(x) * Math.asin(effectiveX / R);
       }
+    } else {
+      this.plane.position.y = 0;
+      this.plane.rotation.z = 0;
     }
 
     this.speed = scroll.current - scroll.last;
     this.program.uniforms.uTime.value += 0.04;
     this.program.uniforms.uSpeed.value = this.speed;
 
-    const planeOffset = this.plane.scale.x / 2;
-    const viewportOffset = this.viewport.width / 2;
     this.isBefore = this.plane.position.x + planeOffset < -viewportOffset;
     this.isAfter = this.plane.position.x - planeOffset > viewportOffset;
+
     if (direction === "right" && this.isBefore) {
       this.extra -= this.widthTotal;
       this.isBefore = this.isAfter = false;
-    }
-    if (direction === "left" && this.isAfter) {
+    } else if (direction === "left" && this.isAfter) {
       this.extra += this.widthTotal;
       this.isBefore = this.isAfter = false;
     }
@@ -427,6 +427,7 @@ class App {
     target: number;
     last: number;
     position?: number;
+    velocity: number;
   };
   onCheckDebounce: (...args: any[]) => void;
   renderer!: Renderer;
@@ -436,8 +437,8 @@ class App {
   planeGeometry!: Plane;
   medias: Media[] = [];
   mediasImages: { image: string; text: string }[] = [];
-  screen!: { width: number; height: number };
-  viewport!: { width: number; height: number };
+  screen!: ScreenSize;
+  viewport!: Viewport;
   raf: number = 0;
 
   boundOnResize!: () => void;
@@ -460,8 +461,8 @@ class App {
   ) {
     document.documentElement.classList.remove("no-js");
     this.container = container;
-    this.scroll = { ease: 0.05, current: 0, target: 0, last: 0 };
-    this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
+    this.scroll = { ease: 0.1, current: 0, target: 0, last: 0, velocity: 0 };
+    this.onCheckDebounce = debounce(this.onCheck.bind(this), 100);
     this.createRenderer();
     this.createCamera();
     this.createScene();
@@ -491,14 +492,14 @@ class App {
 
   createGeometry() {
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100,
+      heightSegments: 20,
+      widthSegments: 40,
     });
   }
 
   createMedias(
     items: { image: string; text: string }[] | undefined,
-    bend: number = 1,
+    bend: number,
     textColor: string,
     borderRadius: number,
     font: string
@@ -536,13 +537,15 @@ class App {
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
+    e.preventDefault();
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const distance = (this.start - x) * 0.05;
+    const distance = (this.start - x) * 0.1;
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
   onTouchUp() {
     this.isDown = false;
+    this.scroll.velocity = (this.scroll.current - this.scroll.last) * 0.1;
     this.onCheck();
   }
 
@@ -575,6 +578,10 @@ class App {
   }
 
   update() {
+    if (!this.isDown) {
+      this.scroll.target += this.scroll.velocity;
+      this.scroll.velocity *= 0.95;
+    }
     this.scroll.current = lerp(
       this.scroll.current,
       this.scroll.target,
@@ -594,13 +601,14 @@ class App {
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
+
     window.addEventListener("resize", this.boundOnResize);
     this.container.addEventListener("mousedown", this.boundOnTouchDown);
     this.container.addEventListener("mousemove", this.boundOnTouchMove);
-    this.container.addEventListener("mouseup", this.boundOnTouchUp);
+    document.addEventListener("mouseup", this.boundOnTouchUp); // Sửa từ this-boundOnTouchUp thành this.boundOnTouchUp
     this.container.addEventListener("touchstart", this.boundOnTouchDown);
     this.container.addEventListener("touchmove", this.boundOnTouchMove);
-    this.container.addEventListener("touchend", this.boundOnTouchUp);
+    document.addEventListener("touchend", this.boundOnTouchUp); // Sửa từ this-boundOnTouchUp thành this.boundOnTouchUp
   }
 
   destroy() {
@@ -658,7 +666,7 @@ export default function CircularGallery({
 
   return (
     <div
-      className={`w-full h-full overflow-hidden cursor-grab active:cursor-grabbing ${
+      className={`w-full h-full overflow-hidden cursor-grab active:cursor-grabbing will-change-transform ${
         className || ""
       }`}
       ref={containerRef}
