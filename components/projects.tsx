@@ -1,12 +1,14 @@
+
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -14,6 +16,7 @@ import projects from "@/components/data/projectsData";
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("all");
+  const swiperRef = useRef<SwiperCore | null>(null);
 
   const filteredProjects =
     activeFilter === "all"
@@ -31,6 +34,13 @@ export default function Projects() {
         delay: index * 0.05,
       },
     }),
+  };
+
+  // Hàm xử lý khi phát video
+  const handleVideoPlay = () => {
+    if (swiperRef.current) {
+      swiperRef.current.autoplay.stop(); // Dừng autoplay khi phát video
+    }
   };
 
   return (
@@ -93,37 +103,47 @@ export default function Projects() {
               animate="visible"
               custom={index}
             >
-              <Card className="overflow-hidden border-green-200 shadow-sm hover:shadow-lg transition-shadow">
+              <Card className="pt-8 overflow-hidden bg-gray-50 border-green-200 shadow-sm hover:shadow-lg transition-shadow">
                 <div className="relative overflow-hidden w-full">
                   <div className="relative">
                     <Swiper
                       modules={[Pagination, Autoplay]}
                       spaceBetween={10}
-                      autoplay={{ delay: 3000, disableOnInteraction: false }}
-                      className="w-full "
-                      style={{ maxHeight: "350px" }} // Giới hạn chiều cao
+                      autoplay={{ delay: 3000, disableOnInteraction: true }}
+                      className="w-full"
+                      style={{ maxHeight: "350px" }}
+                      onSwiper={(swiper) => {
+                        swiperRef.current = swiper;
+                      }}
                     >
-                      {project.images.map((image, imgIndex) => (
+                      {project.images.map((media, imgIndex) => (
                         <SwiperSlide key={imgIndex}>
                           <div
-                            className={`w-full  ${
-                              project.category === "mobile"
-                                ? "max-w-[106px] mx-auto aspect-[9/16] m-2"
-                                : "max-w-[360px] mx-auto aspect-[16/9]"
-                            }`} // Kích thước và tỷ lệ theo type
+                            className="w-full max-w-[360px] mx-auto aspect-[16/9] m-2"
                           >
-                            <img
-                              src={image}
-                              alt={`${project.title} - Slide ${imgIndex}`}
-                              className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
-                            />
+                            {media.includes("youtube.com") ? (
+                              <iframe
+                                src={`${media}?rel=0&modestbranding=1`}
+                                title={`${project.title} - Video ${imgIndex}`}
+                                className="w-full h-full object-contain rounded-lg"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                onPlay={handleVideoPlay} // Dừng autoplay khi phát video
+                              ></iframe>
+                            ) : (
+                              <img
+                                src={media}
+                                alt={`${project.title} - Slide ${imgIndex}`}
+                                className="w-full h-full object-contain transition-transform duration-300 hover:scale-105 rounded-lg"
+                              />
+                            )}
                           </div>
                         </SwiperSlide>
                       ))}
                     </Swiper>
                   </div>
                 </div>
-                <CardContent className="p-3 sm:p-4">
+                <CardContent className="p-3 sm:p-4 bg-white">
                   <h3 className="text-base sm:text-lg font-bold text-green-800 mb-1">
                     {project.title}
                   </h3>

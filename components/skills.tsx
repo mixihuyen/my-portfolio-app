@@ -20,6 +20,10 @@ export default function Skills() {
   const skills = [
     "Flutter",
     "React Native",
+    "React JS",
+    "Java Android",
+    "Switf",
+    "Swift UI",
     "JavaScript",
     "Dart",
     "TypeScript",
@@ -28,7 +32,6 @@ export default function Skills() {
     "RESTful APIs",
     "Git",
     "Redux",
-    "GraphQL",
     "Node.js",
   ];
 
