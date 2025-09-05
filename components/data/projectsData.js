@@ -53,7 +53,7 @@ const projects = [
       "/FYP_admin/7.png",
     ],
     category: "web",
-    link: "https://drive.google.com/file/d/1bkZBp9LBCZmHVVzEX2DXA1WYBV-aAxVp/view",
+    link: "https://final-year-project-b2150.web.app/",
     github: "https://github.com/mixihuyen/fyp_admin",
     technologies: ["Flutter", "Firebase", "Authentication", "Firestore"],
   },
@@ -91,33 +91,6 @@ const projects = [
     technologies: ["Gemini AI", "TailwindCSS", "Javascript", "Firebase"],
   },
   {
-    id: 6,
-    title: "Yoga Admin App ",
-    description: "A mobile application built with React Native and Firebase that allows users to easily search for yoga classes by teacher, date, or schedule, book sessions in real time with cloud-synced data, and manage their personal accounts for a more convenient and accessible booking experience.",
-    images: [
-      
-      "/YogaAppCustomer/1.png",
-      "/YogaAppCustomer/2.png",
-      "/YogaAppCustomer/3.png",
-      "/YogaAppCustomer/4.png",
-      "/YogaAppCustomer/5.png",
-      "/YogaAppCustomer/6.png",
-      "/YogaAppCustomer/7.png",
-      "/YogaAppCustomer/8.png",
-      "/YogaAppCustomer/9.png",
-      "/YogaAppCustomer/10.png",
-      "https://youtube.com/embed/uNC9KR61prA?si=z_iZz2SZNUcQwxyO",
-
-    ],
-    category: "mobile",
-    link: "https://drive.google.com/file/d/1xCm2k7VTmJ8uj_38plTgvTp_5Wm-Yt1j/view?usp=sharing",
-    github: "https://github.com/mixihuyen/YogaAdminApp",
-    technologies: ["React Native", "Firebase",
-      "Authentication",
-      "Firestore",
-      "Storage"],
-  },
-  {
     id: 5,
     title: "Yoga Customer App ",
     description: "A mobile application built with React Native and Firebase that allows users to easily search for yoga classes by teacher, date, or schedule, book sessions in real time with cloud-synced data, and manage their personal accounts for a more convenient and accessible booking experience.",
@@ -138,11 +111,39 @@ const projects = [
     ],
     category: "mobile",
     link: "https://drive.google.com/file/d/1xCm2k7VTmJ8uj_38plTgvTp_5Wm-Yt1j/view?usp=sharing",
-    github: "https://github.com/mixihuyen/YogaAdminApp",
+    github: "https://github.com/mixihuyen/YogaCustomerApp",
     technologies: ["React Native", "Firebase",
       "Authentication",
       "Firestore",
       "Storage"],
+  },
+
+
+  
+  {
+    id: 6,
+    title: "Yoga Admin App ",
+    description: "The Yoga Admin App is an Android-native tool for managing yoga classes, enabling admins to create, edit, and delete courses and instances, stored in SQLite with Firebase synchronization. It features image uploads, intuitive search by name, phone, or email, and detailed order tracking. Interactive dropdowns, confirmation dialogs, and sync status indicators ensure a seamless, user-friendly experience.",
+    images: [
+      
+      "/YogaAppAdmin/1.png",
+      "/YogaAppAdmin/2.png",
+      "/YogaAppAdmin/3.png",
+      "/YogaAppAdmin/4.png",
+      "/YogaAppAdmin/5.png",
+      "/YogaAppAdmin/6.png",
+      "/YogaAppAdmin/7.png",
+      "/YogaAppAdmin/8.png",
+      "/YogaAppAdmin/9.png",
+      "https://www.youtube.com/embed/ZQ8zQI-Lv3g?si=3xE_LNyKoJJNHjKJ",
+
+    ],
+    category: "mobile",
+    link: "https://www.youtube.com/embed/ZQ8zQI-Lv3g?si=3xE_LNyKoJJNHjKJ",
+    github: "https://github.com/mixihuyen/YogaAdminApp",
+    technologies: ["Java Android", "Firebase",
+      "SQLite",
+      "Android Studio"],
   },
 ];
 

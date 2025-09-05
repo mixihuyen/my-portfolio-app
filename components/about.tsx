@@ -4,7 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 import AboutData from "@/public/about.json";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false, 
+});
 
 export default function About() {
   const ref = useRef(null);
