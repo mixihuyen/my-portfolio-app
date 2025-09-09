@@ -50,20 +50,16 @@ export default function About() {
         <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-12">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-6 w-full lg:w-1/2">
             <div>
-              <p className="text-base sm:text-lg text-green-800 mb-4">
-                Hello! I&apos;m a mobile app developer with a passion for
-                creating products that are not only beautiful but also
-                user-friendly.
+              <p className="text-base sm:text-lg text-green-700 mb-4">
+                Hi, I&apos;m an aspiring mobile developer who loves turning ideas into apps people enjoy using. My current focus is iOS development with Swift & SwiftUI, but I also explore cross-platform solutions like Flutter and React Native.
               </p>
-              <p className="text-base sm:text-lg text-green-800 mb-4">
-                With over X years of experience in mobile app development,
-                I&apos;ve worked with various technologies, especially Flutter
-                and React Native.
+              <p className="text-base sm:text-lg text-green-700 mb-4">
+                As an intern-level developer, I may still be early in my journey,
+                 but I&apos;m eager to learn, build, and grow through real projects. 
+                 Each line of code is a chance for me to improve and bring meaningful value to users.
               </p>
-              <p className="text-base sm:text-lg text-green-800">
-                Beyond work, I love nature and always look for ways to live
-                greener. This passion also influences how I design and develop
-                apps - creating optimized and eco-friendly products.
+              <p className="text-base sm:text-lg text-green-700">
+                Beyond coding, I enjoy connecting with nature and seeking balance. This mindset also shapes how I approach development — aiming for clean, efficient, and sustainable solutions.
               </p>
             </div>
             <div className="w-full ">
@@ -92,7 +88,7 @@ export default function About() {
               >
                 <Card>
                   <CardContent className="p-4 sm:p-6">
-                    <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <motion.div
                         className="bg-green-100 p-2 sm:p-3 rounded-full"
                         whileHover={{ scale: 1.2 }}
@@ -113,15 +109,15 @@ export default function About() {
                           {index === 0
                             ? "App Development"
                             : index === 1
-                            ? "Green Design"
+                            ? "Clean & Sustainable Design"
                             : "Passion for Learning"}
                         </h3>
                         <p className="text-sm sm:text-base text-green-700">
                           {index === 0
-                            ? "Specializing in Flutter and React Native, I build cross-platform mobile apps with high performance and excellent user experience."
+                            ? "I focus on building mobile apps with Swift & SwiftUI, and also have experience experimenting with Flutter and React Native for cross-platform development. My priority is performance, design consistency, and usability."
                             : index === 1
-                            ? "I believe in creating apps that are not only visually appealing but also optimized for performance, helping save energy and be environmentally friendly."
-                            : "Always staying updated with the latest technologies and continuously learning to improve my skills and deliver the best value for projects."}
+                            ? "I believe apps should be not only functional but also lightweight and optimized. Writing clean code and designing with efficiency helps create products that are reliable and sustainable over time."
+                            : "I’m always curious about new tools, frameworks, and design patterns. Continuous learning keeps me growing as a developer and helps me bring fresh ideas into every project I work on."}
                         </p>
                       </div>
                     </div>

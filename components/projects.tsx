@@ -36,10 +36,9 @@ export default function Projects() {
     }),
   };
 
-  // Hàm xử lý khi phát video
   const handleVideoPlay = () => {
     if (swiperRef.current) {
-      swiperRef.current.autoplay.stop(); // Dừng autoplay khi phát video
+      swiperRef.current.autoplay.stop();
     }
   };
 
@@ -47,12 +46,12 @@ export default function Projects() {
     <section id="projects" className="py-8 bg-white/50">
       <div className="container mx-auto px-4 sm:px-6 md:px-30">
         <div className="text-center mb-8">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-800 mb-3">
             Projects
           </h2>
           <div className="w-12 h-1 bg-green-500 mx-auto"></div>
-          <p className="mt-3 text-sm sm:text-base text-green-700 max-w-md mx-auto">
-            Notable projects showcasing my mobile and web development skills.
+          <p className="mt-3 text-base sm:text-lg text-green-700 max-w-xl mx-auto">
+            Notable projects reflecting my journey and skills in mobile and web development.
           </p>
         </div>
 
@@ -103,7 +102,7 @@ export default function Projects() {
               animate="visible"
               custom={index}
             >
-              <Card className="pt-8 overflow-hidden bg-gray-50 border-green-200 shadow-sm hover:shadow-lg transition-shadow">
+              <Card className="pt-8 overflow-hidden bg-gray-50 border-green-200 shadow-sm hover:shadow-lg transition-shadow h-full flex flex-col">
                 <div className="relative overflow-hidden w-full">
                   <div className="relative">
                     <Swiper
@@ -118,9 +117,7 @@ export default function Projects() {
                     >
                       {project.images.map((media, imgIndex) => (
                         <SwiperSlide key={imgIndex}>
-                          <div
-                            className="w-full max-w-[360px] mx-auto aspect-[16/9] m-2"
-                          >
+                          <div className="w-full max-w-[360px] mx-auto aspect-[16/9] m-2">
                             {media.includes("youtube.com") ? (
                               <iframe
                                 src={`${media}?rel=0&modestbranding=1`}
@@ -128,7 +125,7 @@ export default function Projects() {
                                 className="w-full h-full object-contain rounded-lg"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                                onPlay={handleVideoPlay} // Dừng autoplay khi phát video
+                                onPlay={handleVideoPlay}
                               ></iframe>
                             ) : (
                               <img
@@ -143,11 +140,11 @@ export default function Projects() {
                     </Swiper>
                   </div>
                 </div>
-                <CardContent className="p-3 sm:p-4 bg-white">
+                <CardContent className="p-3 sm:p-4 bg-white flex flex-col flex-grow">
                   <h3 className="text-base sm:text-lg font-bold text-green-800 mb-1">
                     {project.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-green-700 mb-2 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-green-700 mb-2 line-clamp-2 flex-grow">
                     {project.description}
                   </p>
 
@@ -163,36 +160,33 @@ export default function Projects() {
                     ))}
                   </div>
 
-                  <div className="flex space-x-3">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-700 hover:text-green-500 transition-colors"
-                      aria-label={`View ${project.title} on GitHub`}
+                  <div className="flex gap-2 p-3">
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 border-green-300 text-green-700 hover:bg-green-50 bg-transparent"
                     >
-                      <Github className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </a>
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-700 hover:text-green-500 transition-colors"
-                      aria-label={`Visit ${project.title} live demo`}
+                      <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4 mr-2" />
+                        Code
+                      </a>
+                    </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="flex-1 bg-green-600 hover:bg-green-700"
                     >
-                      <ExternalLink className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </a>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Demo
+                      </a>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
-        </div>
-
-        <div className="text-center mt-6">
-          <Button className="bg-green-600 hover:bg-green-700 px-3 py-1 text-xs sm:text-sm">
-            View More
-          </Button>
         </div>
       </div>
     </section>

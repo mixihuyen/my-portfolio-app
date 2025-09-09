@@ -105,7 +105,7 @@ export default function Hero() {
   const nameText = "Hello, I'm Mixi Huyen";
   const titleText = "Mobile Developer";
   const descriptionText =
-    "I'm a mobile app developer specializing in Flutter and React Native, with a passion for creating amazing user experiences and eco-friendly applications.";
+    "I’m an aspiring mobile developer, focusing on iOS with Swift & SwiftUI, while also exploring cross-platform frameworks like Flutter and React Native. I’m eager to learn, build, and grow through creating apps that bring real value to users.";
 
   const nameChars = splitText(nameText, "char");
   const descriptionWords = splitText(descriptionText, "word");
