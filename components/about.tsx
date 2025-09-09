@@ -2,34 +2,18 @@
 import { Leaf, Code, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion, useInView, useAnimation } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import AboutData from "@/public/about.json";
 import dynamic from "next/dynamic";
 
 const Lottie = dynamic(() => import("lottie-react"), {
-  ssr: false,
+  ssr: false, 
 });
 
 export default function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
   const controls = useAnimation();
-  const [isLoading, setIsLoading] = useState(true); // Trạng thái loading cho intro
-
-  // Kiểm tra tải tài nguyên
-  useEffect(() => {
-    const loadResources = async () => {
-      try {
-        await fetch("/about.json").then((res) => res.json());
-        setIsLoading(false); // Tắt intro sau khi tải xong
-      } catch (error) {
-        console.error("Error loading Lottie animation:", error);
-        setIsLoading(false); // Tắt intro nếu có lỗi
-      }
-    };
-
-    loadResources();
-  }, []);
 
   useEffect(() => {
     if (isInView) {
@@ -40,7 +24,7 @@ export default function About() {
   }, [isInView, controls]);
 
   const cardVariants = {
-    hidden: { opacity: 0, x: 50, scale: 0.95 },
+    hidden: { opacity: 0, x: 50, scale: 0.95 }, // Reduced x translation for smaller screens
     visible: (index: number) => ({
       opacity: 1,
       x: 0,
@@ -48,7 +32,7 @@ export default function About() {
       transition: {
         duration: 0.5,
         ease: "easeOut",
-        delay: index * 0.2,
+        delay: index * 0.2, // Reduced delay for smoother mobile experience
       },
     }),
   };
@@ -67,44 +51,26 @@ export default function About() {
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-6 w-full lg:w-1/2">
             <div>
               <p className="text-base sm:text-lg text-green-800 mb-4">
-                Hello! I&apos;m a mobile app developer with a passion for creating
-                products that are not only beautiful but also user-friendly.
+                Hello! I&apos;m a mobile app developer with a passion for
+                creating products that are not only beautiful but also
+                user-friendly.
               </p>
               <p className="text-base sm:text-lg text-green-800 mb-4">
-                With over X years of experience in mobile app development, I&apos;ve
-                worked with various technologies, especially Flutter and React Native.
+                With over X years of experience in mobile app development,
+                I&apos;ve worked with various technologies, especially Flutter
+                and React Native.
               </p>
               <p className="text-base sm:text-lg text-green-800">
-                Beyond work, I love nature and always look for ways to live greener.
-                This passion also influences how I design and develop apps - creating
-                optimized and eco-friendly products.
+                Beyond work, I love nature and always look for ways to live
+                greener. This passion also influences how I design and develop
+                apps - creating optimized and eco-friendly products.
               </p>
             </div>
-            <div className="w-full relative">
-              {isLoading && (
-                <motion.div
-                  className="absolute inset-0 flex items-center justify-center bg-white/80 z-10"
-                  initial={{ opacity: 1 }}
-                  animate={{ opacity: isLoading ? 1 : 0 }}
-                  transition={{ duration: 0.5 }}
-                  style={{ pointerEvents: isLoading ? "auto" : "none" }}
-                >
-                  <div className="text-center">
-                    <motion.div
-                      className="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full"
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                    />
-                    <p className="mt-2 text-green-800 text-sm font-semibold">
-                      Loading Animation...
-                    </p>
-                  </div>
-                </motion.div>
-              )}
+            <div className="w-full ">
               <Lottie
                 animationData={AboutData}
                 loop={true}
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-cover"
               />
             </div>
           </div>
