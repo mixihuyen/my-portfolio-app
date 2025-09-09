@@ -255,22 +255,36 @@ export default function Hero() {
             }}
           >
             {/* View Projects */}
-            <motion.div
-              variants={buttonVariants}
-              whileHover="hover"
-              className="bg-green-600 text-white px-6 py-2 rounded-md cursor-pointer hover:bg-green-700  hover:shadow-md hover:shadow-green-200"
-            >
-              View Projects
-            </motion.div>
+  <Link
+    to="projects"
+    smooth={true}
+    duration={500}
+    className="cursor-pointer"
+  >
+    <motion.div
+      variants={buttonVariants}
+      whileHover="hover"
+      className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 hover:shadow-md hover:shadow-green-200"
+    >
+      View Projects
+    </motion.div>
+  </Link>
 
-            {/* Contact Me */}
-            <motion.div
-              variants={buttonVariants}
-              whileHover="hover"
-              className="border border-green-600 text-green-600 px-6 py-2 rounded-md cursor-pointer hover:bg-green-100  hover:shadow-md hover:shadow-green-200"
-            >
-              Contact Me
-            </motion.div>
+  {/* Contact Me */}
+  <Link
+    to="contact"
+    smooth={true}
+    duration={500}
+    className="cursor-pointer"
+  >
+    <motion.div
+      variants={buttonVariants}
+      whileHover="hover"
+      className="border border-green-600 text-green-600 px-6 py-2 rounded-md hover:bg-green-100 hover:shadow-md hover:shadow-green-200"
+    >
+      Contact Me
+    </motion.div>
+  </Link>
           </motion.div>
         </div>
 

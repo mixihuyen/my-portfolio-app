@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef } from "react";
@@ -13,15 +12,29 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import projects from "@/components/data/projectsData";
+import ProjectPopup from "./ProjectPopup";
+
+// Định nghĩa interface Project
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  images: string[];
+  technologies: string[];
+  github: string;
+  link: string;
+  category: string;
+}
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
 
   const filteredProjects =
     activeFilter === "all"
       ? projects
-      : projects.filter((project) => project.category === activeFilter);
+      : projects.filter((project: Project) => project.category === activeFilter);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 15 },
@@ -40,6 +53,14 @@ export default function Projects() {
     if (swiperRef.current) {
       swiperRef.current.autoplay.stop();
     }
+  };
+
+  const handleCardClick = (project: Project) => {
+    setSelectedProject(project);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedProject(null);
   };
 
   return (
@@ -94,13 +115,15 @@ export default function Projects() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project: Project, index: number) => (
             <motion.div
               key={project.id}
               variants={cardVariants}
               initial="hidden"
               animate="visible"
               custom={index}
+              onClick={() => handleCardClick(project)}
+              className="cursor-pointer"
             >
               <Card className="pt-8 overflow-hidden bg-gray-50 border-green-200 shadow-sm hover:shadow-lg transition-shadow h-full flex flex-col">
                 <div className="relative overflow-hidden w-full">
@@ -189,6 +212,7 @@ export default function Projects() {
           ))}
         </div>
       </div>
+      <ProjectPopup project={selectedProject} onClose={handleClosePopup} />
     </section>
   );
 }
