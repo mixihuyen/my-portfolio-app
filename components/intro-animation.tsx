@@ -4,11 +4,17 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 import AnimatedBackground from "./animated-background"
 import GradientText from "@/public/GradientText"
+import { Luckiest_Guy } from 'next/font/google';
 
 interface IntroAnimationProps {
   onComplete: () => void
   duration?: number
 }
+const luckiestGuy = Luckiest_Guy({
+  weight: ['400'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function IntroAnimation({ onComplete, duration = 3000 }: IntroAnimationProps) {
   const [currentStep, setCurrentStep] = useState(0)
@@ -17,6 +23,8 @@ export default function IntroAnimation({ onComplete, duration = 3000 }: IntroAni
   const welcomeText = "Welcome to"
   const portfolioText = "My Portfolio"
   const subText = "explore my work and discover who I am."
+
+  
 
   useEffect(() => {
     const timer1 = setTimeout(() => setCurrentStep(1), 100)
@@ -117,7 +125,7 @@ export default function IntroAnimation({ onComplete, duration = 3000 }: IntroAni
           <div className="text-center px-2 sm:px-4 max-w-screen-sm sm:max-w-4xl relative z-10">
             {currentStep >= 0 && (
               <motion.div variants={textVariants} initial="hidden" animate="visible" className="mb-4 sm:mb-8">
-                <h1 className="text-xl sm:text-3xl md:text-5xl text-emerald-700 font-light tracking-wide mx-auto">
+                <h1 className={`${luckiestGuy.className} text-xl sm:text-3xl md:text-5xl text-emerald-700 font-light tracking-wide mx-auto`}>
                   {welcomeText.split("").map((char, index) => (
                     <motion.span
                       key={index}
@@ -141,9 +149,9 @@ export default function IntroAnimation({ onComplete, duration = 3000 }: IntroAni
                   colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
                   animationSpeed={3}
                   showBorder={false}
-                  className="text-3xl sm:text-6xl md:text-9xl font-bold inline-block"
+                  className="text-4xl sm:text-6xl md:text-8xl font-bold inline-block"
                 >
-                  <h2 className="text-center">{portfolioText}</h2>
+                 <h2 className={`${luckiestGuy.className} text-center`}>{portfolioText}</h2>
                 </GradientText>
 
                 <motion.div
@@ -158,7 +166,7 @@ export default function IntroAnimation({ onComplete, duration = 3000 }: IntroAni
             {currentStep >= 2 && (
               <motion.div variants={textVariants} initial="hidden" animate="visible" className="mb-8 sm:mb-20">
                 <motion.p
-                  className="text-base sm:text-2xl md:text-3xl text-blue-600 font-light tracking-wide mx-auto max-w-md sm:max-w-2xl"
+                  className={`${luckiestGuy.className} text-base sm:text-2xl md:text-3xl text-blue-600 font-light tracking-wide mx-auto max-w-md sm:max-w-2xl`}
                   animate={{
                     opacity: [0.6, 1, 0.6],
                   }}

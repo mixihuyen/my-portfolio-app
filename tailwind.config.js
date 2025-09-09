@@ -20,6 +20,9 @@ module.exports = {
       animation: {
         gradient: "gradient 8s linear infinite",
       },
+      fontFamily: {
+        luckiest: ['"Luckiest Guy"', 'cursive'], 
+      },
     },
   },
   plugins: [],
