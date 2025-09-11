@@ -22,7 +22,7 @@ export default function IntroAnimation({ onComplete, duration = 3000 }: IntroAni
 
   const welcomeText = "Welcome to"
   const portfolioText = "My Portfolio"
-  const subText = "explore my work and discover who I am."
+  const subText = "Explore my work and discover who I am."
 
   
 
